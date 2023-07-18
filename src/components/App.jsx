@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact1 } from 'redux/contactSlice';
+
 
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
@@ -10,8 +13,7 @@ import { Filter } from './Filter/Filter';
 import css from './App.module.css';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([
-  ]);
+  const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
   const addContact = ({ name, number }) => {
@@ -56,10 +58,13 @@ export const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const reduxContactCard = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
+
   return (
     <>
       <Section title="Phonebook">
-        <ContactForm onAddContact={addContact} contacts={contacts} />
+        <ContactForm onAddContact={addContact} />
       </Section>
       <Section title="Contacts">
         <div className={css.contactsWrapper}>
@@ -71,6 +76,16 @@ export const App = () => {
           />
         </div>
       </Section>
+
+      <div>
+        <ul>
+          {reduxContactCard.map(e => (
+            <li key={e.id}>{e.name}{ e.number}</li>
+          ))}
+        </ul>
+
+        <button onClick={() => dispatch(addContact1())}>asd</button>
+      </div>
     </>
   );
 };
