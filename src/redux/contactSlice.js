@@ -28,13 +28,13 @@ export const contactSlice = createSlice({
         };
       },
     },
-    deleteContact1(state, action) {
+    deleteContact(state, action) {
       const index = state.contacts.findIndex(contact => contact.id === action.payload);
       state.contacts.splice(index, 1)
     },
   },
 });
 
-export const { addContact1, deleteContact1 } = contactSlice.actions;
+export const { addContact1, deleteContact } = contactSlice.actions;
 
 export const contactReducer = contactSlice.reducer;

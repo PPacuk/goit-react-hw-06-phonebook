@@ -1,11 +1,11 @@
 import { PropTypes } from 'prop-types';
 import css from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact1 } from 'redux/contactSlice';
-import { getContactCard } from 'redux/selectors';
+import { deleteContact } from 'redux/contactSlice';
+import { getContactsList } from 'redux/selectors';
 
-export const ContactList = ({ filter, contacts, deleteContact }) => {
-  const contactCard = useSelector(getContactCard);
+export const ContactList = ({ filter }) => {
+  const contactCard = useSelector(getContactsList);
   const dispatch = useDispatch();
 
   return (
@@ -19,7 +19,7 @@ export const ContactList = ({ filter, contacts, deleteContact }) => {
             {name} : {number}
             <button
               className={css.contactsBtn}
-              onClick={() => dispatch(deleteContact1(id))}
+              onClick={() => dispatch(deleteContact(id))}
             >
               delete
             </button>
