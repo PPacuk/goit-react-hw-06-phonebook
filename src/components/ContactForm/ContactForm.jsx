@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import css from './ContactForm.module.css';
+import { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact1 } from 'redux/contactSlice';
+import { addContact } from 'redux/contactSlice';
 import { Notify } from 'notiflix';
 import { getContactsList } from 'redux/selectors';
 
@@ -11,7 +11,7 @@ export const ContactForm = () => {
   const [number, setNumber] = useState('');
   const contactCard = useSelector(getContactsList);
   const dispatch = useDispatch();
-
+  
   const handleNameInput = e => {
     setName(e.target.value);
   };
@@ -28,9 +28,8 @@ export const ContactForm = () => {
     e.preventDefault();
     if (isOnList) {
       Notify.failure(`${name} is already in contact list!`);
-      console.log(isOnList);
     } else {
-      dispatch(addContact1(name, number));
+      dispatch(addContact(name, number));
       Notify.success(`${name} added to contact list!`);
       setName('');
       setNumber('');
