@@ -4,7 +4,7 @@ import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { addContact1 } from 'redux/contactSlice';
 
-export const ContactForm = ({onAddContact}) => {
+export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
@@ -19,7 +19,6 @@ export const ContactForm = ({onAddContact}) => {
   
   const handleSubmit = e => {
     e.preventDefault();
-    onAddContact({ name, number });
     dispatch(addContact1(name, number))
     setName('')
     setNumber('')

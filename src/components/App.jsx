@@ -11,10 +11,13 @@ import { ContactList } from './ContactList/ContactList';
 import Section from './Section/Section';
 import { Filter } from './Filter/Filter';
 import css from './App.module.css';
+import { getContactCard } from 'redux/selectors';
 
 export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
+   const reduxContactCard = useSelector(getContactCard);
+   const dispatch = useDispatch();
 
   const addContact = ({ name, number }) => {
     const contactCard = {
@@ -23,12 +26,12 @@ export const App = () => {
       number: number,
     };
 
-    const isOnList = contacts
+    const isOnList = reduxContactCard
       .map(contact => contact.name.toLocaleLowerCase())
       .includes(name.toLocaleLowerCase());
 
     if (!isOnList) {
-      const newList = [...contacts, contactCard];
+      const newList = [...reduxContactCard, contactCard];
       setContacts(newList);
       Notify.success(`${name} added to contact list!`);
       localStorage.setItem('phonebook', JSON.stringify(newList));
@@ -37,13 +40,13 @@ export const App = () => {
     }
   };
 
-  const deleteContact = contactId => {
-    setContacts(contacts.filter(contact => contact.id !== contactId));
-    localStorage.setItem(
-      'phonebook',
-      JSON.stringify(contacts.filter(contact => contact.id !== contactId))
-    );
-  };
+  // const deleteContact = contactId => {
+  //   setContacts(contacts.filter(contact => contact.id !== contactId));
+  //   localStorage.setItem(
+  //     'phonebook',
+  //     JSON.stringify(contacts.filter(contact => contact.id !== contactId))
+  //   );
+  // };
 
   const searchInputHandler = e => {
     setFilter(e.currentTarget.value);
@@ -58,34 +61,36 @@ export const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const reduxContactCard = useSelector(state => state.contacts);
-  const dispatch = useDispatch();
+ 
 
   return (
     <>
       <Section title="Phonebook">
-        <ContactForm onAddContact={addContact} />
+        <ContactForm />
       </Section>
       <Section title="Contacts">
         <div className={css.contactsWrapper}>
           <Filter searchInputHandler={searchInputHandler} />
           <ContactList
             filter={filter}
-            contacts={contacts}
-            deleteContact={deleteContact}
+            // contacts={contacts}
+            // deleteContact={deleteContact}
           />
         </div>
       </Section>
 
-      <div>
+      {/* <div>
         <ul>
           {reduxContactCard.map(e => (
-            <li key={e.id}>{e.name}{ e.number}</li>
+            <li key={e.id}>
+              {e.name}
+              {e.number}
+            </li>
           ))}
         </ul>
 
         <button onClick={() => dispatch(addContact1())}>asd</button>
-      </div>
+      </div> */}
     </>
   );
 };
